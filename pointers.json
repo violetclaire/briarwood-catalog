@@ -4,11 +4,5 @@
     "address": "https://767-2676.com/briarwood-card.json",
     "digest": "2a100da9703112000bf0f7ba8e891c49b534b71196da791067985ad8fe4ad8fa",
     "listed": "2026-10-23"
-  },
-  {
-    "name": "Fixture Member Alpha",
-    "address": "https://example.invalid/fixture-alpha",
-    "digest": "d6a68400c35dac7af708308aec797a46f82762a0e7010afc969858d09dcf16f7",
-    "listed": "2026-10-23"
   }
 ]
