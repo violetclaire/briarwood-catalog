@@ -4,11 +4,5 @@
     "address": "https://767-2676.com/briarwood-card.json",
     "digest": "2a100da9703112000bf0f7ba8e891c49b534b71196da791067985ad8fe4ad8fa",
     "listed": "2026-10-23"
-  },
-  {
-    "name": "Briarwood submission acceptance fixture — temporary",
-    "address": "https://raw.githubusercontent.com/violetclaire/popcorn-temporal-anchor/refs/heads/codex/briarwood-submit-checks-2026-10-26/tests/acceptance/briarwood-submit-2026-10-26/30d5eacd/card.json",
-    "digest": "21ee2f3bd3d3179e896ea89ea35796ce826afc3521648df984834cdf6537ff0f",
-    "listed": "2026-10-26"
   }
 ]
