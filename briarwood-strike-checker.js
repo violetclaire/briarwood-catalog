@@ -146,13 +146,34 @@ export function judgeAct(input, cardVersions) {
 
 // One mechanical pass over a set of act records for one member.
 // Returns the per-act verdicts, the strike list, and whether the pointer falls.
+//
+// Repair, October 29, 2026 (checker v2; the rule is unchanged): section 5 has
+// always ruled that one act makes at most one strike. Red team case E2 showed
+// v1 counted the same act record once per copy fed to a pass, so one act could
+// fall a pointer by itself. A pass now counts each act digest once and reports
+// every duplicated record in duplicate_act_records, loudly, instead of
+// absorbing it silently. What this repair does NOT do: the same act witnessed
+// under two different digests is still two records to this checker, because
+// the record format carries no act identity. That half is a specification
+// question (proposal 1, design half), not a checker repair.
 export function runPass(cardVersions, actInputs) {
   const verdicts = actInputs.map((a) => judgeAct(a, cardVersions));
-  const strikes = verdicts.filter((v) => v.strike);
+  const copies = new Map();
+  for (const v of verdicts) copies.set(v.act_digest, (copies.get(v.act_digest) || 0) + 1);
+  const duplicate_act_records = [...copies.entries()]
+    .filter(([, n]) => n > 1)
+    .map(([act_digest, n]) => ({ act_digest, copies: n }));
+  const counted = new Set();
+  const strikes = verdicts.filter((v) => {
+    if (!v.strike || counted.has(v.act_digest)) return false;
+    counted.add(v.act_digest);
+    return true;
+  });
   return {
     verdicts,
     strikes,
     strike_count: strikes.length,
+    duplicate_act_records,
     pointer_falls: strikes.length >= 3,
     pointer_change: strikes.length >= 3
       ? { action: "stop_pointing", strikes: strikes.map((s) => s.act_digest),
